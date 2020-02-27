@@ -10,7 +10,7 @@ public class TextFileInputDemo {
         String homeFolder = System.getenv("HOMEPATH");
 
         //get the file from your Documents folder
-        String fileName = homeFolder + "/Documents/out.txt";
+        String fileName = homeFolder + "/Box/Java/Lab3Updated/src/main/resources/" + args[0];
 
         //let the user know what we are about to do
         System.out.println("The file " + fileName + "\ncontains the following lines:\n");

@@ -7,12 +7,12 @@ import java.util.Scanner;
 
 public class TextFileOutputDemo {
     public static void main(String[] args) {
-        //get your home folder location from the system
+        //gets your home folder location from the system
         String homeFolder = System.getenv("HOMEPATH");
         
         //put the file in your Documents folder
         //TODO -- get the fileName from a command line argument
-        String fileName = homeFolder + "/Documents/out.txt";
+        String fileName = homeFolder + "/Box/Java/Lab3Updated/src/main/resources/" + args[0];
 
         //The PrintWriter class allows you to write out text to a file
         PrintWriter printWriter = null;

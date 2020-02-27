@@ -8,7 +8,7 @@ public class TransactionReader {
     public static void main(String[] args) {
         //TODO -- get the fileName from a command line argument
         String resourceFolder = "src/main/resources";
-        String fileName = resourceFolder + "/" + "transactions.txt";
+        String fileName = resourceFolder + "/" + args[0];
         Scanner inputStream = null;
         try {
             //create Java object that represents file
