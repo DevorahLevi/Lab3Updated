@@ -1,7 +1,9 @@
 package edu.ti.filesandstreams.structured;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class TransactionReader {
@@ -10,6 +12,10 @@ public class TransactionReader {
         String resourceFolder = "src/main/resources";
         String fileName = resourceFolder + "/" + args[0];
         Scanner inputStream = null;
+
+        String outputFileName = "src/main/resources/" + args[1];
+        PrintWriter printWriter = null;
+
         try {
             //create Java object that represents file
             File file = new File(fileName);
@@ -43,17 +49,25 @@ public class TransactionReader {
 
                 // Output the parsed line of input
                 //TODO -- write to output file, get filename from command line
-                System.out.printf("Sold %d of %s (SKU: %s) at $%1.2f each.\n",
+
+                printWriter = new PrintWriter(outputFileName);
+                printWriter.printf("Sold %d of %s (SKU: %s) at $%1.2f each.\n",
                         quantity, description, SKU, price);
                 // Compute total
                 total += quantity * price;
             }
-            System.out.printf("Total sales: $%1.2f\n", total);
+            printWriter.printf("Total sales: $%1.2f\n", total);
+            System.out.println("Transaction details have been printed to " + outputFileName);
+        } catch (FileNotFoundException e) {
+            System.out.println("Error opening the file " + fileName + ": " + e.getMessage());
         } catch (IOException e) {
             System.out.println("Problem with input from file " + fileName + ": " + e.getMessage());
         } finally {
             if (inputStream != null) {
                 inputStream.close();
+            }
+            if (printWriter != null) {
+                printWriter.close();
             }
         }
     }

@@ -3,18 +3,47 @@ package edu.ti.filesandstreams.binary;
 import edu.ti.filesandstreams.dataobject.Species;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class BinaryIODemo {
     //TODO -- read species data from an input file
-    static Species[] initSpecies = {
-            new Species ("Calif. Condor", 27, 0.02),
-            new Species ("Black Rhino", 100, 1.0)
-    };
+    static Species[] initSpecies;
+
+    public static void instantiateSpecies() {
+        String fileName = "src/main/resources/species.txt";
+
+        Scanner inputStream = null;
+        try {
+            File file = new File(fileName);
+            inputStream = new Scanner(file);
+            initSpecies = new Species[3]; //*****How do I declare this for a file that I dont know how many lines there will be,
+                                                // and dont know how many species objects will be created?
+            int count = -1;
+            while (inputStream.hasNextLine()) {
+                count++;
+                String line = inputStream.nextLine();
+                String[] dataArray = line.split(",");
+                String name = dataArray[0];
+                int population = Integer.parseInt(dataArray[1]);
+                double growthRate = Double.parseDouble(dataArray[2]);
+                Species species = new Species(name, population, growthRate);
+                initSpecies[count] = species;
+
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+    }
 
     public static void main (String [] args) {
+        BinaryIODemo.instantiateSpecies();
         //TODO -- get the fileName from a command line argument
         String resourceFolder = "src/main/resources";
-        String fileName = resourceFolder + "/" + "species.dat";
+        String fileName = resourceFolder + "/" + args[0];
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream (new FileOutputStream(fileName))){
             objectOutputStream.writeObject (initSpecies);
         } catch (FileNotFoundException e) {
